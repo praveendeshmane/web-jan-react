@@ -68,3 +68,76 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# npx create-react-app my-app
+# $ cd my-app
+
+
+"dependencies": {
+  "janus-gateway": "git://github.com/meetecho/janus-gateway.git"
+}
+
+Add the above dependency to packages.json and install it.
+
+# npm i webrtc-adapter
+
+Also install webrtc-adapter
+
+# npm run eject
+
+The config directory is created, and navigate to webpack.config.js.
+
+If npm run eject is untracked~~ and does not work, git add . You can do this or delete .git.
+
+module.exports = {
+  ...
+  plugins: [
+    new webpack.ProvidePlugin({ adapter: ['webrtc-adapter', 'default'] }),
+    ...
+  ]
+}
+
+Find plugins and put the following code in it.
+
+# npm install exports-loader@1.1.1 --save-dev
+
+Install exports-loader
+
+In version 2.0.0, the above error continued to appear, but it seems that it is not compatible.
+
+I reinstalled version 1.1.1.
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: require.resolve('janus-gateway'),
+        loader: 'exports-loader',
+         options: {
+           exports: 'Janus',
+         },
+      },
+      ...
+    ]
+  }
+}
+
+Find rules in webpack.config.js and put the code above.
+
+import {Janus} from 'janus-gateway';
+
+function App() {
+  console.log(Janus);
+  return (
+    <div>
+         janus
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
